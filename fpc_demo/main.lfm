@@ -1,0 +1,1924 @@
+object MainForm: TMainForm
+  Left = 257
+  Height = 893
+  Top = 132
+  Width = 1515
+  Caption = 'Поиск жилья'
+  ClientHeight = 873
+  ClientWidth = 1515
+  KeyPreview = True
+  Menu = MainMenu
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
+  OnShow = FormShow
+  SessionProperties = 'cbPriceIsNull.Checked;cbRatingFrom.ItemIndex;cbRatingTo.ItemIndex;cbStoreyNotLast.Checked;DBGridList.Width;edAddr.Text;edPriceFrom.Text;edPriceTo.Text;edRoomsFrom.Text;edRoomsTo.Text;edSquareFrom.Text;edSquareTo.Text;edStoreyFrom.Text;edStoreysFrom.Text;edStoreysTo.Text;edStoreyTo.Text;Height;Left;rgComment.ItemIndex;rgShowDeleted.ItemIndex;Splitter1.Height;Splitter2.Left;Splitter3.Height;Top;Width;rgPublished.ItemIndex'
+  ShowHint = True
+  LCLVersion = '1.6.4.0'
+  object PageControl1: TPageControl
+    Left = 0
+    Height = 873
+    Top = 0
+    Width = 1515
+    ActivePage = tsDBList
+    Align = alClient
+    TabIndex = 2
+    TabOrder = 0
+    object tsBrowser: TTabSheet
+      Caption = 'Браузер'
+      ClientHeight = 845
+      ClientWidth = 1507
+      object crm: TChromium
+        Left = 0
+        Height = 789
+        Top = 56
+        Width = 1507
+        Align = alClient
+        TabOrder = 0
+        OnProcessMessageReceived = crmProcessMessageReceived
+        OnKeyEvent = crmKeyEvent
+        OnBeforePopup = crmBeforePopup
+        OnLoadEnd = crmLoadEnd
+        OnLoadError = crmLoadError
+        OnBeforeResourceLoad = crmBeforeResourceLoad
+        DefaultUrl = 'about:blank'
+      end
+      object Panel1: TPanel
+        Left = 0
+        Height = 56
+        Top = 0
+        Width = 1507
+        Align = alTop
+        ClientHeight = 56
+        ClientWidth = 1507
+        TabOrder = 1
+        object btGo: TButton
+          Left = 106
+          Height = 28
+          Top = 27
+          Width = 35
+          Align = alLeft
+          Caption = 'GO'
+          OnClick = btGoClick
+          TabOrder = 1
+        end
+        object mmUrl: TMemo
+          Left = 141
+          Height = 28
+          Top = 27
+          Width = 1365
+          Align = alClient
+          OnEnter = mmUrlEnter
+          OnKeyDown = mmUrlKeyDown
+          TabOrder = 2
+          WantReturns = False
+        end
+        object btBack: TButton
+          Left = 1
+          Height = 28
+          Top = 27
+          Width = 31
+          Align = alLeft
+          Caption = '<'
+          OnClick = btBackClick
+          TabOrder = 0
+        end
+        object btForward: TButton
+          Left = 32
+          Height = 28
+          Top = 27
+          Width = 32
+          Align = alLeft
+          Caption = '>'
+          OnClick = btForwardClick
+          TabOrder = 3
+        end
+        object tglImage: TToggleBox
+          Left = 64
+          Height = 28
+          Top = 27
+          Width = 42
+          Align = alLeft
+          Caption = 'IMG'
+          Checked = True
+          OnChange = tglImageChange
+          State = cbChecked
+          TabOrder = 4
+        end
+        object ToolBar1: TToolBar
+          Left = 1
+          Height = 26
+          Top = 1
+          Width = 1505
+          Caption = 'ToolBar1'
+          Images = ilFavicons
+          TabOrder = 5
+          object tbAvito: TToolButton
+            Left = 1
+            Hint = 'Авито'
+            Top = 2
+            Caption = 'Авито'
+            ImageIndex = 0
+            OnClick = tbAvitoClick
+          end
+          object tbDomino: TToolButton
+            Left = 47
+            Hint = 'Домино'
+            Top = 2
+            Caption = 'Домино'
+            ImageIndex = 1
+            OnClick = tbDominoClick
+          end
+          object tbDomofond: TToolButton
+            Left = 70
+            Hint = 'Домофонд'
+            Top = 2
+            Caption = 'Домофонд'
+            ImageIndex = 2
+            OnClick = tbDomofondClick
+          end
+          object tbAvitoJS: TToolButton
+            Left = 24
+            Hint = 'Авито click'
+            Top = 2
+            Caption = 'Авито'
+            ImageIndex = 0
+            OnClick = tbAvitoJSClick
+          end
+          object edJS: TEdit
+            Left = 116
+            Height = 23
+            Top = 2
+            Width = 843
+            TabOrder = 0
+          end
+          object tbStop: TToolButton
+            Left = 93
+            Hint = 'Стоп'
+            Top = 2
+            Caption = 'tbStop'
+            OnClick = tbStopClick
+          end
+        end
+      end
+    end
+    object tsHtml: TTabSheet
+      Caption = 'HTML'
+      ClientHeight = 845
+      ClientWidth = 1507
+      object mmHtml: TMemo
+        Left = 0
+        Height = 845
+        Top = 0
+        Width = 1507
+        Align = alClient
+        ReadOnly = True
+        ScrollBars = ssAutoVertical
+        TabOrder = 0
+      end
+    end
+    object tsDBList: TTabSheet
+      Caption = 'Список'
+      ClientHeight = 845
+      ClientWidth = 1507
+      object Panel2: TPanel
+        Left = 0
+        Height = 112
+        Top = 0
+        Width = 1507
+        Align = alTop
+        ClientHeight = 112
+        ClientWidth = 1507
+        TabOrder = 0
+        object btShow: TButton
+          Left = 1120
+          Height = 25
+          Top = 8
+          Width = 75
+          Caption = 'Показать'
+          Default = True
+          OnClick = DoRefresh
+          TabOrder = 11
+        end
+        object gbPrice: TGroupBox
+          Left = 1
+          Height = 96
+          Top = 0
+          Width = 103
+          Caption = 'Цена, тыс. р.'
+          ClientHeight = 76
+          ClientWidth = 99
+          TabOrder = 0
+          object Label1: TLabel
+            Left = 8
+            Height = 15
+            Top = 0
+            Width = 14
+            Caption = 'От'
+            ParentColor = False
+          end
+          object edPriceFrom: TMaskEdit
+            Left = 8
+            Height = 23
+            Top = 15
+            Width = 40
+            CharCase = ecNormal
+            MaxLength = 5
+            TabOrder = 0
+            EditMask = '99999;0;_'
+            SpaceChar = '_'
+          end
+          object edPriceTo: TMaskEdit
+            Left = 53
+            Height = 23
+            Top = 16
+            Width = 40
+            CharCase = ecNormal
+            MaxLength = 5
+            TabOrder = 1
+            EditMask = '99999;0;_'
+            SpaceChar = '_'
+          end
+          object Label2: TLabel
+            Left = 53
+            Height = 15
+            Top = 0
+            Width = 15
+            Caption = 'До'
+            ParentColor = False
+          end
+          object cbPriceIsNull: TCheckBox
+            Left = 8
+            Height = 19
+            Top = 48
+            Width = 70
+            Caption = 'Без цены'
+            OnChange = DoRefresh
+            TabOrder = 2
+          end
+        end
+        object gbStorey: TGroupBox
+          Left = 104
+          Height = 97
+          Top = 0
+          Width = 113
+          Caption = 'Этаж'
+          ClientHeight = 77
+          ClientWidth = 109
+          TabOrder = 1
+          object Label3: TLabel
+            Left = 8
+            Height = 15
+            Top = 0
+            Width = 14
+            Caption = 'От'
+            ParentColor = False
+          end
+          object edStoreyFrom: TMaskEdit
+            Left = 8
+            Height = 23
+            Top = 15
+            Width = 40
+            CharCase = ecNormal
+            MaxLength = 2
+            TabOrder = 0
+            EditMask = '99;0;_'
+            SpaceChar = '_'
+          end
+          object edStoreyTo: TMaskEdit
+            Left = 56
+            Height = 23
+            Top = 15
+            Width = 40
+            CharCase = ecNormal
+            MaxLength = 2
+            TabOrder = 1
+            EditMask = '99;0;_'
+            SpaceChar = '_'
+          end
+          object Label4: TLabel
+            Left = 56
+            Height = 15
+            Top = 0
+            Width = 15
+            Caption = 'До'
+            ParentColor = False
+          end
+          object cbStoreyNotLast: TCheckBox
+            Left = 8
+            Height = 19
+            Top = 48
+            Width = 98
+            Caption = 'Не последний'
+            OnChange = DoRefresh
+            TabOrder = 2
+          end
+        end
+        object gbStoreys: TGroupBox
+          Left = 216
+          Height = 96
+          Top = 0
+          Width = 104
+          Caption = 'Этажей в доме'
+          ClientHeight = 76
+          ClientWidth = 100
+          TabOrder = 2
+          object Label5: TLabel
+            Left = 8
+            Height = 15
+            Top = 0
+            Width = 14
+            Caption = 'От'
+            ParentColor = False
+          end
+          object edStoreysFrom: TMaskEdit
+            Left = 8
+            Height = 23
+            Top = 15
+            Width = 40
+            CharCase = ecNormal
+            MaxLength = 2
+            TabOrder = 0
+            EditMask = '99;0;_'
+            SpaceChar = '_'
+          end
+          object edStoreysTo: TMaskEdit
+            Left = 56
+            Height = 23
+            Top = 15
+            Width = 40
+            CharCase = ecNormal
+            MaxLength = 2
+            TabOrder = 1
+            EditMask = '99;0;_'
+            SpaceChar = '_'
+          end
+          object Label6: TLabel
+            Left = 56
+            Height = 15
+            Top = 0
+            Width = 15
+            Caption = 'До'
+            ParentColor = False
+          end
+        end
+        object Label7: TLabel
+          Left = 1008
+          Height = 21
+          Top = 15
+          Width = 74
+          Caption = 'Найдено:'
+          Font.Height = -16
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object DBText_count: TDBText
+          Left = 1008
+          Height = 21
+          Top = 39
+          Width = 106
+          DataField = 'count(*)'
+          DataSource = dsrcCount
+          Font.Height = -16
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object gbSquare: TGroupBox
+          Left = 320
+          Height = 96
+          Top = 0
+          Width = 104
+          Caption = 'Площадь, м²'
+          ClientHeight = 76
+          ClientWidth = 100
+          TabOrder = 3
+          object Label8: TLabel
+            Left = 8
+            Height = 15
+            Top = 0
+            Width = 14
+            Caption = 'От'
+            ParentColor = False
+          end
+          object edSquareFrom: TMaskEdit
+            Left = 8
+            Height = 23
+            Top = 15
+            Width = 40
+            CharCase = ecNormal
+            MaxLength = 3
+            TabOrder = 0
+            EditMask = '999;0;_'
+            SpaceChar = '_'
+          end
+          object edSquareTo: TMaskEdit
+            Left = 56
+            Height = 23
+            Top = 16
+            Width = 40
+            CharCase = ecNormal
+            MaxLength = 3
+            TabOrder = 1
+            EditMask = '999;0;_'
+            SpaceChar = '_'
+          end
+          object Label9: TLabel
+            Left = 56
+            Height = 15
+            Top = 1
+            Width = 15
+            Caption = 'До'
+            ParentColor = False
+          end
+        end
+        object rgShowDeleted: TRadioGroup
+          Left = 528
+          Height = 96
+          Top = 0
+          Width = 128
+          AutoFill = True
+          Caption = 'Скрытые'
+          ChildSizing.LeftRightSpacing = 6
+          ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+          ChildSizing.EnlargeVertical = crsHomogenousChildResize
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 1
+          ClientHeight = 76
+          ClientWidth = 124
+          ItemIndex = 1
+          Items.Strings = (
+            'Показывать'
+            'Не показывать'
+            'Только скрытые'
+          )
+          OnSelectionChanged = DoRefresh
+          TabOrder = 5
+        end
+        object gbRooms: TGroupBox
+          Left = 424
+          Height = 96
+          Top = 1
+          Width = 104
+          Caption = 'Комнат'
+          ClientHeight = 76
+          ClientWidth = 100
+          TabOrder = 4
+          object Label10: TLabel
+            Left = 8
+            Height = 15
+            Top = 0
+            Width = 14
+            Caption = 'От'
+            ParentColor = False
+          end
+          object edRoomsFrom: TMaskEdit
+            Left = 8
+            Height = 23
+            Top = 15
+            Width = 40
+            CharCase = ecNormal
+            MaxLength = 3
+            TabOrder = 0
+            EditMask = '999;0;_'
+            SpaceChar = '_'
+          end
+          object edRoomsTo: TMaskEdit
+            Left = 56
+            Height = 23
+            Top = 16
+            Width = 40
+            CharCase = ecNormal
+            MaxLength = 3
+            TabOrder = 1
+            EditMask = '999;0;_'
+            SpaceChar = '_'
+          end
+          object Label11: TLabel
+            Left = 56
+            Height = 15
+            Top = 1
+            Width = 15
+            Caption = 'До'
+            ParentColor = False
+          end
+        end
+        object btClear: TButton
+          Left = 1120
+          Height = 25
+          Top = 47
+          Width = 75
+          Caption = 'Очистить'
+          OnClick = btClearClick
+          TabOrder = 12
+        end
+        object edAddr: TLabeledEdit
+          Left = 872
+          Height = 23
+          Top = 72
+          Width = 136
+          EditLabel.AnchorSideLeft.Control = edAddr
+          EditLabel.AnchorSideRight.Control = edAddr
+          EditLabel.AnchorSideRight.Side = asrBottom
+          EditLabel.AnchorSideBottom.Control = edAddr
+          EditLabel.Left = 872
+          EditLabel.Height = 15
+          EditLabel.Top = 54
+          EditLabel.Width = 136
+          EditLabel.Caption = 'Поиск текста'
+          EditLabel.ParentColor = False
+          TabOrder = 10
+        end
+        object rgComment: TRadioGroup
+          Left = 656
+          Height = 96
+          Top = 0
+          Width = 132
+          AutoFill = True
+          Caption = 'Комментарии'
+          ChildSizing.LeftRightSpacing = 6
+          ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+          ChildSizing.EnlargeVertical = crsHomogenousChildResize
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 1
+          ClientHeight = 76
+          ClientWidth = 128
+          ItemIndex = 0
+          Items.Strings = (
+            'Неважно'
+            'С комментарием'
+            'Без комментария'
+          )
+          OnSelectionChanged = DoRefresh
+          TabOrder = 6
+        end
+        object Label12: TLabel
+          Left = 872
+          Height = 15
+          Top = 5
+          Width = 41
+          Caption = 'Оценка'
+          ParentColor = False
+        end
+        object Label13: TLabel
+          Left = 872
+          Height = 15
+          Top = 32
+          Width = 12
+          Caption = 'от'
+          ParentColor = False
+        end
+        object Label14: TLabel
+          Left = 928
+          Height = 15
+          Top = 32
+          Width = 13
+          Caption = 'до'
+          ParentColor = False
+        end
+        object cbRatingFrom: TComboBox
+          Left = 888
+          Height = 23
+          Top = 24
+          Width = 36
+          ItemHeight = 15
+          ItemIndex = 0
+          Items.Strings = (
+            '0'
+            '1'
+            '2'
+            '3'
+            '4'
+            '5'
+            '6'
+            '7'
+            '8'
+            '9'
+          )
+          OnChange = cbRatingFromChange
+          Style = csDropDownList
+          TabOrder = 8
+          Text = '0'
+        end
+        object cbRatingTo: TComboBox
+          Left = 944
+          Height = 23
+          Top = 24
+          Width = 36
+          ItemHeight = 15
+          ItemIndex = 9
+          Items.Strings = (
+            '0'
+            '1'
+            '2'
+            '3'
+            '4'
+            '5'
+            '6'
+            '7'
+            '8'
+            '9'
+          )
+          OnChange = cbRatingToChange
+          Style = csDropDownList
+          TabOrder = 9
+          Text = '9'
+        end
+        object rgPublished: TRadioGroup
+          Left = 784
+          Height = 96
+          Top = 1
+          Width = 84
+          AutoFill = True
+          Caption = 'Активные'
+          ChildSizing.LeftRightSpacing = 6
+          ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+          ChildSizing.EnlargeVertical = crsHomogenousChildResize
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 1
+          ClientHeight = 76
+          ClientWidth = 80
+          ItemIndex = 1
+          Items.Strings = (
+            'Неважно'
+            'Да'
+            'Нет'
+          )
+          OnSelectionChanged = DoRefresh
+          TabOrder = 7
+        end
+      end
+      object StatusBar1: TStatusBar
+        Left = 0
+        Height = 23
+        Top = 822
+        Width = 1507
+        Panels = <>
+      end
+      object Panel3: TPanel
+        Left = 0
+        Height = 247
+        Top = 575
+        Width = 1507
+        Align = alBottom
+        ClientHeight = 247
+        ClientWidth = 1507
+        ParentColor = False
+        TabOrder = 3
+        object DBMemo_title: TDBMemo
+          Left = 24
+          Height = 26
+          Top = 56
+          Width = 1096
+          BorderStyle = bsNone
+          DataField = 'title'
+          DataSource = dsrcList
+          TabOrder = 4
+        end
+        object DBMemo_full_desc: TDBMemo
+          Left = 24
+          Height = 128
+          Top = 80
+          Width = 1096
+          BorderStyle = bsNone
+          DataField = 'full_desc'
+          DataSource = dsrcList
+          ScrollBars = ssAutoVertical
+          TabOrder = 5
+        end
+        object DBMemo_url: TDBMemo
+          Cursor = crHandPoint
+          Left = 24
+          Height = 24
+          Top = 32
+          Width = 1096
+          BorderStyle = bsNone
+          DataField = 'url'
+          DataSource = dsrcList
+          Font.Color = clBlue
+          OnClick = DBMemo_urlClick
+          ParentFont = False
+          TabOrder = 3
+        end
+        object DBMemo_district_name: TDBMemo
+          Left = 24
+          Height = 23
+          Top = 9
+          Width = 144
+          BorderStyle = bsNone
+          DataField = 'district_name'
+          DataSource = dsrcList
+          TabOrder = 0
+        end
+        object DBMemostreet: TDBMemo
+          Left = 176
+          Height = 23
+          Top = 9
+          Width = 336
+          BorderStyle = bsNone
+          DataField = 'street'
+          DataSource = dsrcList
+          TabOrder = 1
+        end
+        object DBMemo_street_no: TDBMemo
+          Left = 520
+          Height = 23
+          Top = 8
+          Width = 48
+          BorderStyle = bsNone
+          DataField = 'street_no'
+          DataSource = dsrcList
+          TabOrder = 2
+        end
+        object btCommentUpdate: TButton
+          Left = 1256
+          Height = 25
+          Top = 192
+          Width = 75
+          Caption = 'Сохранить'
+          OnClick = btCommentUpdateClick
+          TabOrder = 6
+        end
+        object mmComment: TMemo
+          Left = 1128
+          Height = 159
+          Top = 24
+          Width = 304
+          OnChange = mmCommentChange
+          OnKeyDown = mmCommentKeyDown
+          TabOrder = 7
+        end
+        object lbComment: TLabel
+          Left = 1128
+          Height = 15
+          Top = 8
+          Width = 77
+          Caption = 'Комментарий'
+          ParentColor = False
+        end
+      end
+      object Splitter1: TSplitter
+        Cursor = crVSplit
+        Left = 0
+        Height = 5
+        Top = 570
+        Width = 1507
+        Align = alBottom
+        ResizeAnchor = akBottom
+      end
+      object Panel4: TPanel
+        Left = 0
+        Height = 458
+        Top = 112
+        Width = 1507
+        Align = alClient
+        ClientHeight = 458
+        ClientWidth = 1507
+        TabOrder = 1
+        object DBGridList: TDBGrid
+          Left = 1
+          Height = 456
+          Hint = 'Клавиши на доп. клавиатуре:'#13#10'0..9 - оценка'#13#10'''-'' - пометить как неинтересное'#13#10'''+'' - пометить как интересное'#13#10'''/'' - инвертировать пометку публикации'
+          Top = 1
+          Width = 1250
+          Align = alLeft
+          Color = clWindow
+          Columns = <>
+          DataSource = dsrcList
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+          PopupMenu = GridMenu
+          TabOrder = 0
+          TitleImageList = ilSortArrows
+          OnContextPopup = DBGridListContextPopup
+          OnDrawColumnCell = DBGridListDrawColumnCell
+          OnDblClick = DBGridListDblClick
+          OnKeyDown = DBGridListKeyDown
+          OnPrepareCanvas = DBGridListPrepareCanvas
+          OnTitleClick = DBGridListTitleClick
+        end
+        object Splitter2: TSplitter
+          Left = 1251
+          Height = 456
+          Top = 1
+          Width = 5
+        end
+        object Panel5: TPanel
+          Left = 1256
+          Height = 456
+          Top = 1
+          Width = 250
+          Align = alClient
+          BevelOuter = bvNone
+          Caption = 'Panel5'
+          ClientHeight = 456
+          ClientWidth = 250
+          TabOrder = 2
+          object DBGridPrices: TDBGrid
+            Left = 0
+            Height = 229
+            Top = 0
+            Width = 250
+            Align = alTop
+            Color = clWindow
+            Columns = <>
+            DataSource = dsrcPrices
+            TabOrder = 0
+          end
+          object Splitter3: TSplitter
+            Cursor = crVSplit
+            Left = 0
+            Height = 5
+            Top = 229
+            Width = 250
+            Align = alTop
+            ResizeAnchor = akTop
+          end
+          object DBGridPhones: TDBGrid
+            Left = 0
+            Height = 222
+            Top = 234
+            Width = 250
+            Align = alClient
+            Color = clWindow
+            Columns = <>
+            DataSource = dsrcPhones
+            TabOrder = 2
+            OnPrepareCanvas = DBGridPhonesPrepareCanvas
+          end
+        end
+      end
+    end
+    object tsPage: TTabSheet
+      Caption = 'Содержание'
+    end
+  end
+  object SQLite3Conn: TSQLite3Connection
+    Connected = False
+    LoginPrompt = False
+    AfterConnect = SQLite3ConnAfterConnect
+    DatabaseName = 'q:\Games\estate_informer\estate.sqlite'
+    KeepConnection = False
+    Transaction = SQLTran
+    Options = []
+    left = 736
+    top = 280
+  end
+  object dsrcList: TDataSource
+    DataSet = qList
+    left = 792
+    top = 280
+  end
+  object ilFavicons: TImageList
+    left = 680
+    top = 280
+    Bitmap = {
+      4C6904000000100000001000000069779500A87F5500F2A50C8CFFAB00D5FFAA
+      00B8C495392D707B8E007A7E8400807F800084846F007F7F7B006F6FB5008485
+      6D0083846E00808080007F7F8000A8895504F8A10699FFAA00FAFFAA00FFFFAA
+      00FFFEAB00E1C7943731797C8600808178007A7A93116564E6986160FBC86564
+      E1957271AD0E828275007F7F8000F7A50794FFAB00FFFFA900FFFFAA00FFFFA9
+      00FFFFAB00FFFFA800CE86817500797E84006462F7BF605DFFFF6361FFFF605E
+      FFFF5D5BFFB576769A0282827500FFAB00EDFFAA00FFFFAA00FFFFAA00FFFFAA
+      00FFFFAA00FFFEAD00FFC096330E6369CB145E5BFFFF6361FFFF6361FFFF6361
+      FFFF5F5DFFFF7675A62182827300FFAB00DDFFAA00FFFFA900FFFFAA00FFFFAA
+      00FFFFAA00FFFFAE00FFB4924208656CBB0B5D5BFFFF6260FFFF6361FFFF6260
+      FFFF5F5CFFF47676A31382827300E39F1B50FFAC00F7FFAA00FFFFA900FFFFAA
+      00FFFFAF00FFECA21194787D85007E807A006765E5775F5AFFFF635BFFFF5F5B
+      FFFF6665E76F7F7F7C0080807C006C799100C6963849FFAC00DEFFAF00FFFFAE
+      00FFE4A31A9C9B876304767D890082807900867783006F68C024696EC55B7669
+      BA228876820081807C007F8080007A7E8500757C8A0099876507C2983D30AB8E
+      531F797D8600767D8900857F7E00867A7E006A94821432B9755E20D0857144B3
+      815D609B821187797E00817E7F0080807F00807F8100727E8600657D89006B81
+      87007B818100837E7F007D797D0039B58B491AD798ED1FD69AFF24D198FF1DD6
+      99FF17D998E94EA98A418B747C00817F800076817D00957A8506C6749451AC5E
+      8C307E737F008A7B7D005092841B13D798F925D197FF26CE96FF26CF97FF26CE
+      96FF25CF97FF19D898F46991830B73827C008E7C8307F4679FC0FF66A5FFFF5F
+      A6FDC5698C48777D79003ABD907E1FD598FF26CE96FF26CF97FF26CF97FF26CF
+      97FF26CE96FF25CF97FF23CD948169837900A6778A2FFF65A4FFF569A0FFFE69
+      A4FFEB6391A67C7E7A0020CF95A122D197FF26CF97FF26CF97FF26CF97FF26CF
+      97FF26CF97FF26CE96FF23D096C96F827B009879850CFF65A2D3FF67A3FFFF64
+      A5FFC072925774807C002AC3908520D398FF26CE97FF26CF97FF26CF97FF26CF
+      97FF26CF97FF26CE97FF1ED2968F807F7F0079827E00A46E8616E4639867C971
+      93467A807E0086777C005C9C872719D999FF24CF97FF26CE97FF26CF97FF26CF
+      97FF26CE97FF1CD698F955A18814807F80007F80800078817D0078807D007781
+      7D007D807F00837E80007E7B7A0031B3826021D499FA25CF97FF26CF97FF26CE
+      97FF1BD698F737BB8F598A767C0080808000807F80007F8080007F807F007F80
+      7F00807F80007F808000827E800093707D0043AC891B1BD397A925CE97EB1ED3
+      97A555A2881689757C00837D7F000053580000665A00007D5C0000965E000028
+      3B0000D2000000FF64000019670000426900006D6B00009B6D0000CC6F000001
+      72000038740000000000009A100000AB380000903A0000773C0000623E000028
+      3B00003F00000000440000294600002248000000000000000085000000A80000
+      000000000000000054000042560000E51B00009C1D0000561F00001321000028
+      3B000095000000003B000022000000000000000000E4000000CB000000FF0000
+      00FF000000000000340000C9360000EB01000076030000040500009506000028
+      3B0000BE00000000000000000088000000DF0000000000000000000000FF0000
+      00FF000000000000180000301A000054D5000014D80000DADA0000A5DD000028
+      3B0000000000000000A6000000B40000000000D5EE0000000000000000FF0000
+      00FF000000000000FD00006300000000AC000080AE0000F3B000006AB3000000
+      0000000000A4000000A000000000000EC00000A4C20000000000000000FF0000
+      00FF000000000000CF000099D20000F893000019E300004D1200000000000000
+      0000000000B70000000000711E0000F893000019E30000000000000000FF0000
+      00FF0000000000003B0000AA000000F893000019E30000AF9300000000000000
+      00EA000000000000200000711E0000F893000019E30000000000000000FF0000
+      00FF000000000000200000711E0000F893000019E30000AF9300000000AD0000
+      0097000000000000200000711E0000F893000019E30000000000000000FF0000
+      00FF000000000000200000711E0000F893000019E30000000000000000F80000
+      0000000000000000200000711E0000F893000019E30000000000000000FF0000
+      00FF000000000000200000711E0000EDB5000000000000000000000000FF0000
+      00A000B300000000200000711E0000F893000019E30000000000000000FF0000
+      00FF000000000000200000711E0000FF5000008E860000000000000000EF0000
+      00FB000000000008540000CEAB0000FF5000008E860000000000000000FF0000
+      00FF0000000000004500009145000000000000000000000000AE000000F00000
+      00FF000000FF000000FF000000FF000000F7000000EC000000ED000000F60000
+      00D90000008D0000000000000000000000E7000000FF000000CE000000840000
+      0000000000000000000000000000000000000000000000000000000000000000
+      009A000000D5000000FE000000BF000000930000000000C62600000000000028
+      3B00006500000000540000CEAB0000FF5000008E860000C7260000FD26000028
+      3B0000B30000000000000000000000501800008BB50000000000000000000028
+      3B00000000000000540000CEAB0000FF5000008E86000097B500000000000028
+      3B00000000000000540000CEAB0080808000797F88009682614FD08814FFCA88
+      1DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFD088
+      14FF9682614F797F88008080800080808000797F88009682614FD08814FFCA88
+      1DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFD088
+      14FF9682614F797F88008080800080808000797F88009682614FD08814FFCA88
+      1DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFD088
+      14FF9682614F797F88008080800080808000797F88009682614FD08814FFCA88
+      1DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFD088
+      14FF9682614F797F88008080800080808000797F88009682614FD08814FFCA88
+      1DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFD088
+      14FF9682614F797F88008080800080808000797F88009682614FD08814FFCA88
+      1DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFCA881DFFD088
+      14FF9682614F797F88008080800080808000797F88009682614FD08814FFCA88
+      1DFFCA881DFFCA881DFFCA881DFFCA881DFFC9881DFFCB881BFFCA881CFFCF88
+      14FF9682614F797F88008080800080808000797F88009682614FD08814FFCA88
+      1DFFC9881DFFC9881DFFCF8815FACF8815FBC9871DFFCA881CF5CC8819FBCF87
+      14FF9682614F797F88008080800080808000797F88009682614FD08814FFC988
+      1DFFC9881DFFD18811F8B2853B36B1853C40D88907EEA2835009B3853993D488
+      0DFF9682614F797F88008080800080808000797F88009682614ECF8814FFC988
+      1DFFD28810F6B585363E777E8900797F8600B585372E87807400A6834C90D789
+      09FF9682614E797F88008080800080808000797F88009582614DCF8714FFD288
+      10F4B584373E7A7F86007C7F84007E7F81007B7F8600757E8C00AF843E9DD789
+      09FF9582614D797F88008080800080808000787E880097825E5DDA8905FFB585
+      37397A7E86007C7F840080807F0080807F007F7F8100777E8900A9834636DC89
+      02FF97825E5D787E880080808000808080007A7F860096826039B78534467B7F
+      85007C7F840080807F008080800080808000808080007E7F81007D7F8100B785
+      3546968260397A7F8600808080008080800080807F007F7F81007B7F86007E7F
+      820080807F008080800080808000808080008080800080807F007E7F82007B7F
+      86007F7F810080807F00808080008080800080807F007F7F80007F7F80008080
+      7F0080808000808080008080800080808000808080008080800080807F007F7F
+      80007F7F800080807F0080808000808080008080800080808000808080008080
+      8000808080008080800080808000808080008080800080808000808080008080
+      800080808000808080008080800000AEFF0000AEFF0000AEFF0000AEFF0000AE
+      FF0000AEFF0000AEFF0000AEFF2A00AEFF2D00AEFF0000AEFF0000AEFF0000AE
+      FF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AE
+      FF0000AEFF0000AEFF0000AEFF7B00AEFF7E00AEFF0000AEFF0000AEFF0000AE
+      FF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AE
+      FF0000AEFF0000AEFF0000AEFFD200AEFFD200AEFF0000AEFF0000AEFF0000AE
+      FF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AE
+      FF0000AEFF0000AEFF2700AEFFFF00AEFFFF00AEFF2700AEFF0000AEFF0000AE
+      FF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AE
+      FF0000AEFF0000AEFF7800AEFFFF00AEFFFF00AEFF7800AEFF0000AEFF0000AE
+      FF0000AEFF0000AEFF0000AEFF0000AEFF2700AEFF3300AEFF3300AEFF3300AE
+      FF4800AEFF6600AEFFDB00AEFFFF00AEFFFF00AEFFDB00AEFF6600AEFF4800AE
+      FF3300AEFF3300AEFF3300AEFF2700AEFF2100AEFFC000AEFFFF00AEFFFF00AE
+      FFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AE
+      FFFF00AEFFFF00AEFFC300AEFF2100AEFF0000AEFF0300AEFF7B00AEFFF900AE
+      FFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AE
+      FFF900AEFF7B00AEFF0300AEFF0000AEFF0000AEFF0000AEFF0000AEFF3600AE
+      FFD800AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFFD800AE
+      FF3600AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AE
+      FF2700AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFF2700AE
+      FF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AE
+      FF7500AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFFFF00AEFF7500AE
+      FF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AE
+      FFC600AEFFFF00AEFFFF00AEFFBD00AEFFBD00AEFFFF00AEFFFF00AEFFC900AE
+      FF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF1E00AE
+      FFFF00AEFFFC00AEFF7B00AEFF0000AEFF0000AEFF7800AEFFF900AEFFFF00AE
+      FF1E00AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF7200AE
+      FFE100AEFF3C00AEFF0000AEFF0000AEFF0000AEFF0000AEFF3600AEFFDE00AE
+      FF7500AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF7500AE
+      FF0F00AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0000AEFF0C00AE
+      FF6F00AEFF0000AEFF0000AEFF00000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000
+    }
+  end
+  object qPrices: TSQLQuery
+    FieldDefs = <    
+      item
+        Name = 'price_time'
+        DataType = ftDateTime
+        Precision = -1
+      end    
+      item
+        Name = 'price'
+        DataType = ftLargeint
+        Precision = -1
+      end>
+    Database = SQLite3Conn
+    Transaction = SQLTran
+    SQL.Strings = (
+      'SELECT'
+      '  price_time,'
+      '  price'
+      'FROM prices WHERE estate_id=:estate_id'
+      'ORDER BY price_time DESC'
+    )
+    Options = []
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'estate_id'
+        ParamType = ptInput
+        Size = 4
+      end>
+    DataSource = dsrcList
+    left = 840
+    top = 328
+    object qPricesprice_time: TDateTimeField
+      DisplayLabel = 'Дата'
+      DisplayWidth = 14
+      FieldKind = fkData
+      FieldName = 'price_time'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qPricesprice: TLargeintField
+      DisplayLabel = 'Цена'
+      FieldKind = fkData
+      FieldName = 'price'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+  object dsrcPrices: TDataSource
+    DataSet = qPrices
+    left = 840
+    top = 280
+  end
+  object SQLTran: TSQLTransaction
+    Active = False
+    Database = SQLite3Conn
+    Options = []
+    left = 736
+    top = 328
+  end
+  object qList: TSQLQuery
+    FieldDefs = <    
+      item
+        Name = 'estate_id'
+        DataType = ftInteger
+        Precision = -1
+      end    
+      item
+        Name = 'price_time'
+        DataType = ftString
+        Precision = -1
+        Size = 255
+      end    
+      item
+        Name = 'price'
+        DataType = ftLargeint
+        Precision = -1
+      end    
+      item
+        Name = 'region_name'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'city_name'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'district_name'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'site_class'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'homepage'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'site_desc'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'person'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'street'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'street_no'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'site_pub_id'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'title'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'full_desc'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'creation_time'
+        DataType = ftDateTime
+        Precision = -1
+      end    
+      item
+        Name = 'publication_time'
+        DataType = ftDateTime
+        Precision = -1
+      end    
+      item
+        Name = 'store_time'
+        DataType = ftDateTime
+        Precision = -1
+      end    
+      item
+        Name = 'seen_time'
+        DataType = ftDateTime
+        Precision = -1
+      end    
+      item
+        Name = 'url'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'total_square'
+        DataType = ftLargeint
+        Precision = -1
+      end    
+      item
+        Name = 'living_square'
+        DataType = ftLargeint
+        Precision = -1
+      end    
+      item
+        Name = 'kitchen_square'
+        DataType = ftLargeint
+        Precision = -1
+      end    
+      item
+        Name = 'rooms_count'
+        DataType = ftSmallint
+        Precision = -1
+      end    
+      item
+        Name = 'storeys'
+        DataType = ftSmallint
+        Precision = -1
+      end    
+      item
+        Name = 'storey'
+        DataType = ftSmallint
+        Precision = -1
+      end    
+      item
+        Name = 'balcony'
+        DataType = ftBoolean
+        Precision = -1
+      end    
+      item
+        Name = 'published'
+        DataType = ftBoolean
+        Precision = -1
+      end    
+      item
+        Name = 'hidden'
+        DataType = ftBoolean
+        Precision = -1
+      end    
+      item
+        Name = 'rating'
+        DataType = ftSmallint
+        Precision = -1
+      end    
+      item
+        Name = 'bath_joint'
+        DataType = ftBoolean
+        Precision = -1
+      end    
+      item
+        Name = 'other_info'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'house_cond'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'comment'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'debug_data'
+        DataType = ftMemo
+        Precision = -1
+      end    
+      item
+        Name = 'geo_lat'
+        DataType = ftLargeint
+        Precision = -1
+      end    
+      item
+        Name = 'geo_lon'
+        DataType = ftLargeint
+        Precision = -1
+      end>
+    AfterScroll = qListAfterScroll
+    Database = SQLite3Conn
+    Transaction = SQLTran
+    SQL.Strings = (
+      'SELECT * FROM price_view'
+      'ORDER BY price_time DESC'
+    )
+    Options = []
+    Params = <>
+    left = 792
+    top = 328
+    object qListprice: TLargeintField
+      DisplayLabel = 'Цена'
+      DisplayWidth = 6
+      FieldKind = fkData
+      FieldName = 'price'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qListtitle: TMemoField
+      DisplayLabel = 'Заголовок'
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'title'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListcreation_time: TDateTimeField
+      DisplayLabel = 'Создано'
+      DisplayWidth = 12
+      FieldKind = fkData
+      FieldName = 'creation_time'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      OnGetText = qListcreation_timeGetText
+    end
+    object qListstore_time: TDateTimeField
+      DisplayLabel = 'Сохранено'
+      DisplayWidth = 12
+      FieldKind = fkData
+      FieldName = 'store_time'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qListpublication_time: TDateTimeField
+      DisplayLabel = 'Опубликовано'
+      DisplayWidth = 12
+      FieldKind = fkData
+      FieldName = 'publication_time'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+    end
+    object qListprice_time: TStringField
+      DisplayLabel = 'Изменение цены'
+      DisplayWidth = 12
+      FieldKind = fkData
+      FieldName = 'price_time'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 255
+    end
+    object qListtotal_square: TLargeintField
+      DisplayLabel = 'Общ.пл.'
+      DisplayWidth = 6
+      FieldKind = fkData
+      FieldName = 'total_square'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qListliving_square: TLargeintField
+      DisplayLabel = 'Жил.пл.'
+      DisplayWidth = 6
+      FieldKind = fkData
+      FieldName = 'living_square'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qListkitchen_square: TLargeintField
+      DisplayLabel = 'Пл.кух.'
+      DisplayWidth = 6
+      FieldKind = fkData
+      FieldName = 'kitchen_square'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qListrooms_count: TSmallintField
+      DisplayLabel = 'Комнат'
+      DisplayWidth = 6
+      FieldKind = fkData
+      FieldName = 'rooms_count'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qListstoreys: TSmallintField
+      DisplayLabel = 'Этажей'
+      DisplayWidth = 6
+      FieldKind = fkData
+      FieldName = 'storeys'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qListstorey: TSmallintField
+      DisplayLabel = 'Этаж'
+      DisplayWidth = 6
+      FieldKind = fkData
+      FieldName = 'storey'
+      Index = 11
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qListrating: TSmallintField
+      DisplayLabel = 'Оценка'
+      DisplayWidth = 12
+      FieldKind = fkData
+      FieldName = 'rating'
+      Index = 12
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      OnGetText = qListratingGetText
+    end
+    object qListsite_desc: TMemoField
+      DisplayLabel = 'Сайт'
+      DisplayWidth = 8
+      FieldKind = fkData
+      FieldName = 'site_desc'
+      Index = 13
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListestate_id: TLongintField
+      FieldKind = fkData
+      FieldName = 'estate_id'
+      Index = 14
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+    end
+    object qListregion_name: TMemoField
+      FieldKind = fkData
+      FieldName = 'region_name'
+      Index = 15
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListcity_name: TMemoField
+      FieldKind = fkData
+      FieldName = 'city_name'
+      Index = 16
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListdistrict_name: TMemoField
+      FieldKind = fkData
+      FieldName = 'district_name'
+      Index = 17
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListsite_class: TMemoField
+      FieldKind = fkData
+      FieldName = 'site_class'
+      Index = 18
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListhomepage: TMemoField
+      FieldKind = fkData
+      FieldName = 'homepage'
+      Index = 19
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListperson: TMemoField
+      FieldKind = fkData
+      FieldName = 'person'
+      Index = 20
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListstreet: TMemoField
+      FieldKind = fkData
+      FieldName = 'street'
+      Index = 21
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListstreet_no: TMemoField
+      FieldKind = fkData
+      FieldName = 'street_no'
+      Index = 22
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListsite_pub_id: TMemoField
+      FieldKind = fkData
+      FieldName = 'site_pub_id'
+      Index = 23
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListfull_desc: TMemoField
+      FieldKind = fkData
+      FieldName = 'full_desc'
+      Index = 24
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListseen_time: TDateTimeField
+      FieldKind = fkData
+      FieldName = 'seen_time'
+      Index = 25
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+    end
+    object qListurl: TMemoField
+      FieldKind = fkData
+      FieldName = 'url'
+      Index = 26
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListbalcony: TBooleanField
+      FieldKind = fkData
+      FieldName = 'balcony'
+      Index = 27
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      DisplayValues = 'True;False'
+    end
+    object qListpublished: TBooleanField
+      FieldKind = fkData
+      FieldName = 'published'
+      Index = 28
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      DisplayValues = 'True;False'
+    end
+    object qListhidden: TBooleanField
+      FieldKind = fkData
+      FieldName = 'hidden'
+      Index = 29
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      DisplayValues = 'True;False'
+    end
+    object qListbath_joint: TBooleanField
+      FieldKind = fkData
+      FieldName = 'bath_joint'
+      Index = 30
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      DisplayValues = 'True;False'
+    end
+    object qListother_info: TMemoField
+      FieldKind = fkData
+      FieldName = 'other_info'
+      Index = 31
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListhouse_cond: TMemoField
+      FieldKind = fkData
+      FieldName = 'house_cond'
+      Index = 32
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListcomment: TMemoField
+      FieldKind = fkData
+      FieldName = 'comment'
+      Index = 33
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListdebug_data: TMemoField
+      FieldKind = fkData
+      FieldName = 'debug_data'
+      Index = 34
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qListgeo_lat: TLargeintField
+      FieldKind = fkData
+      FieldName = 'geo_lat'
+      Index = 35
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+    end
+    object qListgeo_lon: TLargeintField
+      FieldKind = fkData
+      FieldName = 'geo_lon'
+      Index = 36
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Visible = False
+    end
+  end
+  object qCount: TSQLQuery
+    FieldDefs = <    
+      item
+        Name = 'count(*)'
+        DataType = ftString
+        Precision = -1
+        Size = 255
+      end>
+    Database = SQLite3Conn
+    Transaction = SQLTran
+    SQL.Strings = (
+      'SELECT count(*) FROM price_view'
+    )
+    Options = []
+    Params = <>
+    left = 896
+    top = 328
+  end
+  object dsrcCount: TDataSource
+    DataSet = qCount
+    left = 896
+    top = 280
+  end
+  object TrayIcon: TTrayIcon
+    PopUpMenu = TrayMenu
+    Icon.Data = {
+      7E03000000000100010010100000010018006803000016000000280000001000
+      0000200000000100180000000000000000002B0100002B010000000000000000
+      00000000000000000000000000000000006D13186D13186D13186D13186D1318
+      6D13180000000000000000000000000000000000000000000000000000000000
+      000000000000006D13186D131800000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000006D13186D1318000000
+      0000000000000000000000000000000000006D13186D13186D13186D13186D13
+      186D13186D13186D13186D13186D13186D13186D13186D13186D13186D13186D
+      13186D13186D13186D13186D13186D13186D13186D13186D13186D13186D1318
+      6D13186D13186D13186D13186D13186D1318B5878A6D13186D13186D13186D13
+      186D13180000000000000000000000006D13186D13186D13186D13186D1318B5
+      878AFEFDFDB5878A6D13186D13186D13186D1318000000000000000000000000
+      6D13186D13186D13186D1318B5878AFEFDFD000000FEFEFEB5878A6D13186D13
+      186D13180000000000000000000000006D13186D13186D1318B5878AFFFEFE00
+      0000000000000000FEFEFEB5878A6D13186D1318000000000000000000000000
+      6D13186D1318B5878AFDFBFB000000000000000000000000000000000000B587
+      8A6D13186D13186D13186D13186D13186D1318B5878A00000000000000000000
+      0000000000000000000000000000000000B5878A6D13186D13186D13186D1318
+      B5878A0000000000000000000000000000000000000000000000000000000000
+      00000000B5878A6D13186D1318B5878A00000000000000000000000000000000
+      0000000000000000000000000000000000000000000000B5878AB5878A000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000F81F0000FE7F0000FE7F0000000000000000000003C0000003C0000083C1
+      0000C3C30000F00F0000F81F0000FC3F0000FE7F0000FFFF0000FFFF0000FFFF
+      0000
+    }
+    OnClick = MainFormShow
+    OnDblClick = MainFormShow
+    left = 624
+    top = 280
+  end
+  object TrayMenu: TPopupMenu
+    left = 629
+    top = 328
+    object MenuItem3: TMenuItem
+      Caption = 'Show'
+      OnClick = MainFormShow
+    end
+    object MenuItem1: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem2: TMenuItem
+      Caption = 'Exit'
+      OnClick = MainFormClose
+    end
+  end
+  object MainMenu: TMainMenu
+    left = 629
+    top = 384
+    object MenuItem4: TMenuItem
+      Caption = 'Файл'
+      object MenuItem5: TMenuItem
+        Caption = 'Свернуть'
+        OnClick = MainFormHide
+      end
+      object MenuItem6: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem7: TMenuItem
+        Caption = 'Выход'
+        OnClick = MainFormClose
+      end
+    end
+  end
+  object qWorker: TSQLQuery
+    FieldDefs = <>
+    Database = SQLite3Conn
+    Transaction = SQLTran
+    Options = []
+    Params = <>
+    left = 992
+    top = 328
+  end
+  object GridMenu: TPopupMenu
+    left = 629
+    top = 440
+    object GridMenuRating0: TMenuItem
+      Caption = 'Не оценивать'
+      OnClick = GridMenuRatingClick
+    end
+    object MenuItem9: TMenuItem
+      Caption = '-'
+    end
+    object GridMenuRating1: TMenuItem
+      Tag = 1
+      Caption = '★'
+      OnClick = GridMenuRatingClick
+    end
+    object GridMenuRating2: TMenuItem
+      Tag = 2
+      Caption = '★★'
+      OnClick = GridMenuRatingClick
+    end
+    object GridMenuRating3: TMenuItem
+      Tag = 3
+      Caption = '★★★'
+      OnClick = GridMenuRatingClick
+    end
+    object GridMenuRating4: TMenuItem
+      Tag = 4
+      Caption = '★★★★'
+      OnClick = GridMenuRatingClick
+    end
+    object GridMenuRating5: TMenuItem
+      Tag = 5
+      Caption = '★★★★★'
+      OnClick = GridMenuRatingClick
+    end
+    object MenuItem8: TMenuItem
+      Caption = '-'
+    end
+    object GridMenuHide: TMenuItem
+      Caption = 'Неинтересно'
+      OnClick = GridMenuHideClick
+    end
+    object MenuItem10: TMenuItem
+      Caption = '-'
+    end
+    object GridMenuPublished: TMenuItem
+      Caption = 'Неактивно'
+      OnClick = GridMenuPublishedClick
+    end
+  end
+  object qPhones: TSQLQuery
+    FieldDefs = <    
+      item
+        Name = 'phone'
+        DataType = ftMemo
+        Precision = -1
+      end>
+    Database = SQLite3Conn
+    Transaction = SQLTran
+    SQL.Strings = (
+      'SELECT phone'
+      'FROM phones WHERE estate_id=:estate_id'
+      'ORDER BY phone'
+    )
+    Options = []
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'estate_id'
+        ParamType = ptInput
+        Size = 4
+      end>
+    DataSource = dsrcList
+    left = 944
+    top = 328
+    object qPhonesphone: TMemoField
+      DisplayLabel = 'Телефоны'
+      FieldKind = fkData
+      FieldName = 'phone'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+  end
+  object dsrcPhones: TDataSource
+    DataSet = qPhones
+    left = 944
+    top = 280
+  end
+  object XMLPropStorage: TXMLPropStorage
+    StoredValues = <>
+    FileName = 'q:\Games\estate_informer\estate.xml'
+    OnRestoreProperties = XMLPropStorageRestoreProperties
+    left = 536
+    top = 280
+  end
+  object ilSortArrows: TImageList
+    Height = 5
+    Width = 6
+    left = 680
+    top = 328
+    Bitmap = {
+      4C69020000000600000005000000FFFFFF00FFFFFF000000000000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF000000000000000000FFFFFF00FFFFFF00FFFF
+      FF0000000000000000000000000000000000FFFFFF00FFFFFF00000000000000
+      00000000000000000000FFFFFF00000000000000000000000000000000000000
+      000000000000000000FF000000FF000000FF000000FF000000FF000000FFFFFF
+      FF00000000FF000000FF000000FF000000FFFFFFFF00FFFFFF00000000FF0000
+      00FF000000FF000000FFFFFFFF00FFFFFF00FFFFFF00000000FF000000FFFFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00000000FF000000FFFFFFFF00FFFFFF00
+    }
+  end
+end
