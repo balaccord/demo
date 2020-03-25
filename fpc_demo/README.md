@@ -4,7 +4,7 @@ Namely, [Free Pascal](https://www.freepascal.org/) and [Lazarus IDE](https://www
 
 The desktop part of the real estate classification software package
 
-The [scripts](../perl_demo) written on [Perl](https://www.perl.org/) collect the data to SQL DB ([SQLite](https://www.sqlite.org/) in this case) and the operator analyze them
+The [scripts](../perl_demo) written on [Perl](https://www.perl.org/) collect the data automatically to SQL DB ([SQLite](https://www.sqlite.org/) in this case) for the operator's observation
 
 [Chromium Embedded Framework](https://github.com/chromiumembedded) (it's FPC library [fpCEF3](https://github.com/dliw/fpCEF3) to be exact) is used for the data presentation
 
@@ -29,4 +29,4 @@ For the user convenience the simple ads blocking is realized based on hosts blac
 
 Для отображения данных используется Chromium Embedded Framework в варианте fpCEF3 с блокировщиком рекламы на основе чёрного списка хостов
 
-Пользовательский интерактивный модуль программного комплекса для обработки объявлений недвижимости подключается к базе SQL (в данном конкретном случае - SQLite), куда собираются данные извне (в данном случае - при помощи Perl-скриптов)
+Пользовательский интерактивный модуль программного комплекса для обработки объявлений недвижимости. Подключается к базе SQL (в данном конкретном случае - SQLite), куда автоматически собираются данные из различных источников при помощи Perl-скриптов
